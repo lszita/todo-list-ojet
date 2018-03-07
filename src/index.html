@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Oracle JET TODO App</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+
+    <!-- This is the main css file for the default Alta theme -->
+    <!-- injector:theme -->
+    <link rel="stylesheet" href="css/libs/oj/v4.1.0/alta/oj-alta-min.css" type="text/css"/>
+    <!-- endinjector -->
+
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+
+  </head>
+  <body class="oj-web-applayout-body">
+    <div id="globalBody" class="oj-web-applayout-page">
+      <header role="banner" class="oj-web-applayout-header">
+        <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
+          <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
+            <span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
+        <h2>TODO List App</h2>
+        <div>
+          <oj-button id='button1' class='oj-button-confirm' chroming="full" on-click='[[openModal]]'>Create new task </oj-button>
+
+          <oj-list-view id="todoListView" style="width:100%;overflow-x:hidden"
+                  data="[[dataSource]]"
+                  item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('todoTemplate')]]"
+                  selection-mode="single">
+          </oj-list-view>
+
+
+          <oj-popup id="taskPopup"
+            tail="none" position.my.horizontal="center" position.my.vertical="center"
+            position.at.horizontal="center" position.at.vertical="center"
+            position.of="window" 
+            modality="modal">
+            <h3>Create Task</h3>
+            <oj-label for="text-input">Task</oj-label>
+            <oj-input-text id="text-input" value="{{taskName}}"></oj-input-text>
+
+            <oj-button id='button2' class='oj-button-confirm' chroming="full" on-click='[[createTask]]'>Create</oj-button>
+          </oj-popup>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/html" id="todoTemplate">
+      <li>
+        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-space-between">
+          <div class="oj-flex-item">
+            <span data-bind="text: name" style="font-weight:bold;"></span> 
+            <span data-bind="visible: completed"> &nbsp <i class="fas fa-check" style="color:green"></i> </span> 
+            <span data-bind="visible: !completed"> - <a href="#" data-bind="click: () => { $parent.completeTask(id) }" style="font-weight:bold;">Complete</a></span> 
+          </div>
+          <div class="oj-flex-item">
+            <span data-bind="click: () => { $parent.deleteTask(id) }"><i class="fas fa-times" style="color:red"></i><span>
+          </div>
+        </div>
+      </li>
+    </script>
+    
+    <script type="text/javascript" src="js/libs/require/require.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+
+</html>
